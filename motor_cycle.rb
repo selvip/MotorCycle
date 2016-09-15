@@ -121,15 +121,24 @@ require 'pry'
 	end
 
 	def self.all
-		puts @@bikes.length
 		@@bikes.each do |bike|
-			print bike.name + ", "
+			print bike.name.to_s + ", "
 		end
 		puts
 	end
 
 	def self.destroy(id)
-		@@bikes.delete_if{ |bike| bike.name == id}
-		puts "The object has been removed."
+		a = self.find(id)
+		if a.length > 0
+			@@bikes.delete_if{ |bike| bike.name == id}
+			puts "The object has been removed."
+		else
+			puts "Not found."
+		end
 	end
+
+	def self.create(name, current_fuel, max_capacity_fuel)
+		self.new(name, current_fuel, max_capacity_fuel)
+	end
+	
 end
