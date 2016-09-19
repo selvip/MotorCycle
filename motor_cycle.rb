@@ -3,15 +3,17 @@ class MotorCycle
 	WHEEL = 2
 	@@bikes = []
 
-require 'pry'
+	require 'pry'
 
-	def initialize(name, current_fuel, max_capacity_fuel)
+	attr_accessor :name, :current_fuel, :max_capacity_fuel, :velocity, :time, :distance
+
+	def initialize(name, current_fuel, max_capacity_fuel, velocity, time, distance)
 		@name = name
 		@current_fuel = current_fuel
 		@max_capacity_fuel = max_capacity_fuel
-		@velocity = 0 #can be nil for now
-		@time = 0 #can be nil for now
-		@distance = 0 #can be nil for now
+		@velocity = velocity
+		@time = time
+		@distance = distance
 		@@bikes.insert(@@bikes.length,self)
 		puts "Object has been added."
 	end
@@ -32,7 +34,7 @@ require 'pry'
 	def ride(time1, velocity)
 		@velocity = velocity
 		if @current_fuel <= 0
-			puts "Cannot run the MotorCycle anymore"
+			puts "Cannot run the MotorCycle"
 		else
 			dist = time1 * @velocity
 			fuel_needed = dist * 0.01
@@ -72,73 +74,44 @@ require 'pry'
 		puts "Name = " + @name
 	end
 
-	def name
-		@name
-	end
-
 	def display_current_fuel
 		puts "Current fuel = " + @current_fuel.to_s + " liters."
-	end
-
-	def current_fuel
-		@current_fuel
 	end
 
 	def display_max_capacity_fuel
 		puts "Max capacity fuel = " + @max_capacity_fuel.to_s + " liters."
 	end
 
-	def max_capacity_fuel
-		@max_capacity_fuel
-	end
-
 	def display_velocity
 		puts "Velocity = " + @velocity.to_s + " meter per seconds."
-	end
-
-	def velocity
-		@velocity
 	end
 
 	def display_time
 		puts "Time = " + @time.to_s + " seconds."
 	end
 
-	def time
-		@time
-	end
-
 	def display_distance
 		puts "Distance = " + @distance.to_s + " meters."
 	end
 
-	def distance
-		@distance
-	end
-
 	def self.find(id)
-		@@bikes.select{ |bike| bike.name == id}
+		@@bikes.find{ |bike| bike.name == id}
 	end
 
 	def self.all
-		@@bikes.each do |bike|
-			print bike.name.to_s + ", "
-		end
-		puts
+		@@bikes
 	end
 
 	def self.destroy(id)
-		a = self.find(id)
-		if a.length > 0
-			@@bikes.delete_if{ |bike| bike.name == id}
-			puts "The object has been removed."
-		else
-			puts "Not found."
-		end
+		@@bikes.delete_if{ |bike| bike.name == id}	
 	end
 
-	def self.create(name, current_fuel, max_capacity_fuel)
-		self.new(name, current_fuel, max_capacity_fuel)
+	def self.create(name, current_fuel, max_capacity_fuel, velocity, time, distance)
+		self.new(name, current_fuel, max_capacity_fuel, velocity, time, distance)
 	end
 	
+	def self.display_all
+		binding pry
+	end
+
 end
