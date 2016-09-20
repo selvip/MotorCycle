@@ -91,9 +91,9 @@ end
 
 def list
 	puts "*2. LIST OF MOTORCYCLES*"
-	x = MotorCycle.all
+	bikes = SportMotorCycle.all
 	i=0
-	x.each do |bike|
+	bikes.each do |bike|
 		i += 1
 		print i.to_s + ". "
 		print bike.name.to_s

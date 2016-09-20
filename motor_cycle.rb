@@ -1,15 +1,21 @@
 class MotorCycle
 	WHEEL = 2
+	@@bikes = []
 
-	def initialize(name:, current_fuel:, max_capacity_fuel:, velocity:nil, time:nil, distance:nil)
+	require 'pry'
+
+	attr_accessor :name, :current_fuel, :max_capacity_fuel, :velocity, :time, :distance
+
+	def initialize(name, current_fuel, max_capacity_fuel, velocity, time, distance)
 		@name = name
 		@current_fuel = current_fuel
 		@max_capacity_fuel = max_capacity_fuel
-		@velocity = 0 #can be nil for now
-		@time = 0 #can be nil for now
-		@distance = 0 #can be nil for now
+		@velocity = velocity
+		@time = time
+		@distance = distance
+		@@bikes.insert(@@bikes.length,self)
+		puts "Object has been added."
 	end
-
 
 	def refill(fill)
 		if @current_fuel < @max_capacity_fuel #kalo bisa diisi
@@ -21,13 +27,13 @@ class MotorCycle
 		else #ga bisa diisi
 			puts "Cannot be filled anymore"
 		end
-			current_fuel()
+			display_current_fuel()
 	end
 
 	def ride(time1, velocity)
 		@velocity = velocity
 		if @current_fuel <= 0
-			puts "Cannot run the MotorCycle anymore"
+			puts "Cannot run the MotorCycle"
 		else
 			dist = time1 * @velocity
 			fuel_needed = dist * 0.01
@@ -48,43 +54,63 @@ class MotorCycle
 				puts "Current distance = " + dist.to_s + " meters."
 				puts "Current duration = " + time1.to_s + " seconds. "
 			end
-			distance()
-			time()
+			display_distance()
+			display_time()
 		end
-		current_fuel()
+		display_current_fuel()
 	end
 
 	def reset
 		@current_fuel = 0
 		@distance = 0
 		@time = 0
-		current_fuel()
-		distance()
-		time()
+		display_current_fuel()
+		display_distance()
+		display_time()
 	end
 
-	def name
+	def display_name
 		puts "Name = " + @name
 	end
 
-	def current_fuel
+	def display_current_fuel
 		puts "Current fuel = " + @current_fuel.to_s + " liters."
 	end
 
-	def max_capacity_fuel
+	def display_max_capacity_fuel
 		puts "Max capacity fuel = " + @max_capacity_fuel.to_s + " liters."
 	end
 
-	def velocity
+	def display_velocity
 		puts "Velocity = " + @velocity.to_s + " meter per seconds."
 	end
 
-	def time
+	def display_time
 		puts "Time = " + @time.to_s + " seconds."
 	end
 
-	def distance
+	def display_distance
 		puts "Distance = " + @distance.to_s + " meters."
+	end
+
+	def self.find(id)
+		@@bikes.find{ |bike| bike.name == id}
+	end
+
+	def self.all
+		@@bikes
+	end
+
+	def self.destroy(id)
+		@@bikes.delete_if{ |bike| bike.name == id}	
+	end
+
+	def self.create(name, current_fuel, max_capacity_fuel, velocity, time, distance)
+		self.new(name, current_fuel, max_capacity_fuel, velocity, time, distance)
+	end
+	
+	def self.display_all
+		binding pry
 	end
 
 end

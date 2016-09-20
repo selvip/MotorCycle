@@ -110,7 +110,7 @@ def select
 	puts "*END-OF-LIST*"
 	print "Select bike: "
 	select_bike = gets.chomp.to_i
-	object = bikes[i-1]
+	object = bikes[select_bike-1]
 	puts "MotorCycle -- " + object.name
 	
 	exit = false
