@@ -3,15 +3,17 @@ class Garage
 
 	require 'pry'
 
-	attr_accessor :motors
+	attr_accessor :motors, :free_capacity
 
-  def initialize(motors)
+  def initialize(motors, max_capacity)
   	@motors = motors
+  	@max_capacity = max_capacity
+  	@free_capacity = @max_capacity
   end
  
   def add_to_garage(motor)
-  	@motors.insert(@motors.length, motor)
-  	puts "Motor added to garage #{motor.name}"
+  	@motors << motor
+  	@free_capacity = @free_capacity - motor.space
   end
 
   def find_in_garage(index)
@@ -20,6 +22,7 @@ class Garage
 
   def remove_from_garage(motor)
   	@motors.delete_if{ |bike| bike == motor}
+  	@free_capacity = @free_capacity + motor.space
   end
 
   def display_motors

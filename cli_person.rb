@@ -1,6 +1,6 @@
 require_relative 'person'
 
-people = []
+@people = []
 
 #SUBMENUS
 
@@ -17,9 +17,11 @@ def add_motor(selected_person)
 	new_max_capacity_fuel = gets.chomp.to_i
 	print "Velocity : "
 	new_velocity = gets.chomp.to_i
-	new_motor = MotorCycle.new(new_motor_name, 0, new_max_capacity_fuel, new_velocity, 0, 0)
+	print "Space : "
+	new_space = gets.chomp.to_i
+	new_motor = MotorCycle.new(new_motor_name, 0, new_max_capacity_fuel, new_velocity, 0, 0, new_space)
 	selected_person.add_motor(new_motor)
-	puts "#{new_motor_name} has been added."
+	puts "END-OF-ADD"
 end
 
 def remove_motor(selected_person)
@@ -61,14 +63,15 @@ end
 def create
 	print "Name : "
 	new_name = gets.chomp
-	new_person = Person.new(name: new_name)
-	people << new_person
-	people.insert(people.length, new_person)
+	print "Garage space : "
+	new_garage_space = gets.chomp.to_i
+	new_person = Person.new(name: new_name, garage_space: new_garage_space)
+	@people << new_person
 	puts "END-OF-CREATE"
 end
 
 def list
-	people.each_with_index do |person, index|
+	@people.each_with_index do |person, index|
 		index += 1
 		puts "#{index}. #{person.name}"
 	end
@@ -79,10 +82,10 @@ def select
 	list
 	print "Select person : "
 	select_person = gets.chomp.to_i
-	if (select_person-1) < 0 or (select_person-1) >= people.length
+	if (select_person-1) < 0 or (select_person-1) >= @people.length
 		puts "Input is not on the list."
 	else
-		selected_person = people[select_person-1]
+		selected_person = @people[select_person-1]
 		puts "MotorCycle -- #{selected_person.name}"
 		exit = false
 		begin
@@ -116,11 +119,11 @@ def destroy
 	list
 	print "Select person : "
 	select_person = gets.chomp.to_i
-	if (select_person-1) < 0 or (select_person-1) >= people.length
+	if (select_person-1) < 0 or (select_person-1) >= @people.length
 		puts "Input is not on the list."
 	else
-		selected_person = people[select_person-1]
-		people.delete_if{ |person| person == selected_person}
+		selected_person = @people[select_person-1]
+		@people.delete_if{ |person| person == selected_person}
 		puts "#{selected_person.name} is deleted."
 	end
 	puts "END-OF-DESTROY"

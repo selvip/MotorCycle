@@ -6,17 +6,18 @@ class MotorCycle
 
 	require 'pry'
 
-	attr_accessor :name, :current_fuel, :max_capacity_fuel, :velocity, :time, :distance
+	attr_accessor :name, :current_fuel, :max_capacity_fuel, :velocity, :time, :distance, :space
 
-	def initialize(name, current_fuel, max_capacity_fuel, velocity, time, distance)
+	def initialize(name, current_fuel, max_capacity_fuel, velocity, time, distance, space)
 		@name = name
 		@current_fuel = current_fuel
 		@max_capacity_fuel = max_capacity_fuel
 		@velocity = velocity
 		@time = time
 		@distance = distance
+		@space = space
 		@@bikes.insert(@@bikes.length,self)
-		puts "A MotorCycle has been added."
+		puts "A MotorCycle has been created."
 	end
 
 	def refill(fill)
@@ -108,8 +109,8 @@ class MotorCycle
 		@@bikes.delete_if{ |bike| bike == id}	
 	end
 
-	def self.create(name, current_fuel, max_capacity_fuel, velocity, time, distance)
-		self.new(name, current_fuel, max_capacity_fuel, velocity, time, distance)
+	def self.create(name, current_fuel, max_capacity_fuel, velocity, time, distance, space)
+		self.new(name, current_fuel, max_capacity_fuel, velocity, time, distance, space)
 	end
 
 end
