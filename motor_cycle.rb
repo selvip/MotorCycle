@@ -27,7 +27,7 @@ class MotorCycle
 		else #ga bisa diisi
 			puts "Cannot be filled anymore"
 		end
-			display_current_fuel()
+			display_current_fuel
 	end
 
 	def ride(time1, velocity)
@@ -54,19 +54,19 @@ class MotorCycle
 				puts "Current distance = " + dist.to_s + " meters."
 				puts "Current duration = " + time1.to_s + " seconds. "
 			end
-			display_distance()
-			display_time()
+			display_distance
+			display_time
 		end
-		display_current_fuel()
+		display_current_fuel
 	end
 
 	def reset
 		@current_fuel = 0
 		@distance = 0
 		@time = 0
-		display_current_fuel()
-		display_distance()
-		display_time()
+		display_current_fuel
+		display_distance
+		display_time
 	end
 
 	def display_name
@@ -102,15 +102,11 @@ class MotorCycle
 	end
 
 	def self.destroy(id)
-		@@bikes.delete_if{ |bike| bike.name == id}	
+		@@bikes.delete_if{ |bike| bike == id}	
 	end
 
 	def self.create(name, current_fuel, max_capacity_fuel, velocity, time, distance)
 		self.new(name, current_fuel, max_capacity_fuel, velocity, time, distance)
-	end
-	
-	def self.display_all
-		binding pry
 	end
 
 end
