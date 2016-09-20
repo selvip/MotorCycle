@@ -61,8 +61,6 @@ require 'pry'
 			@type = 300
 			@velocity = 70
 			@max_capacity_fuel = 30
-		else
-			puts 'type not include in list'
 		end
 		velocity_mps
 	end

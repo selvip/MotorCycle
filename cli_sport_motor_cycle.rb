@@ -83,6 +83,8 @@ def create
 		new_type = 250
 	when 4
 		new_type = 300
+	else
+		abort("Wrong input. Bye!")
 	end
 	SportMotorCycle.new(new_name.to_s, new_type)
 	puts "*END-OF-CREATE*"
@@ -116,38 +118,42 @@ def select
 	puts "*END-OF-LIST*"
 	print "Select bike: "
 	select_bike = gets.chomp.to_i
-	object = bikes[i-1]
-	puts "MotorCycle -- " + object.name
-	
-	exit = false
-	while !exit
-		puts "***SUBMENU***"
-		puts "1. Refill Fuel"
-		puts "2. Ride MotorCycle"
-		puts "3. Reset MotorCycle"
-		puts "4. Change Gear"
-		puts "5. Details"
-		puts "6. Horn the MotorCycle"
-		puts "7. Exit"
-		print "Choose your option: "
-		answer = gets.chomp
-		answer = answer.to_i
-		case answer
-		when 1
-			refill(object)
-		when 2
-			ride(object)
-		when 3
-			reset(object)
-		when 4
-			changeGear(object)
-		when 5
-			details(object)
-		when 6
-			horn(object)
-		when 7
-			exit = true	
+	if (select_bike-1) < bikes.length and (select_bike-1) >= 0
+		object = bikes[select_bike-1]
+		puts "MotorCycle -- " + object.name
+		
+		exit = false
+		while !exit
+			puts "***SUBMENU***"
+			puts "1. Refill Fuel"
+			puts "2. Ride MotorCycle"
+			puts "3. Reset MotorCycle"
+			puts "4. Change Gear"
+			puts "5. Details"
+			puts "6. Horn the MotorCycle"
+			puts "7. Exit"
+			print "Choose your option: "
+			answer = gets.chomp
+			answer = answer.to_i
+			case answer
+			when 1
+				refill(object)
+			when 2
+				ride(object)
+			when 3
+				reset(object)
+			when 4
+				changeGear(object)
+			when 5
+				details(object)
+			when 6
+				horn(object)
+			when 7
+				exit = true	
+			end
 		end
+	else
+		puts "Unable to retrieve."
 	end
 	puts "*END-OF-SELECT*"
 end

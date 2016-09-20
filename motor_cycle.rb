@@ -1,4 +1,6 @@
+require_relative 'horn'
 class MotorCycle
+	include Horn
 	WHEEL = 2
 	@@bikes = []
 

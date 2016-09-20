@@ -38,7 +38,11 @@ def changeMax(object)
 	puts "*5. Change Max Fuel Capacity*"
 	print "Max Capacity Fuel: "
 	max_fuel = gets.chomp.to_i
-	object.max_capacity_fuel = max_fuel
+	if max_fuel < object.current_fuel
+		puts "Max fuel must not be less than current fuel. Current fuel: " + object.current_fuel.to_s
+	else
+		object.max_capacity_fuel = max_fuel
+	end
 	puts "END-OF-CHANGE"
 end
 
@@ -109,44 +113,48 @@ def select
 	puts "*END-OF-LIST*"
 	print "Select car: "
 	select_car = gets.chomp.to_i
-	object = cars[i-1]
-	puts "Car -- " + object.name
-	
-	exit = false
-	while !exit
-		puts "***SUBMENU***"
-		puts "1. Refill Fuel"
-		puts "2. Ride Car"
-		puts "3. Reset Car"
-		puts "4. Change Velocity"
-		puts "5. Change Max Fuel Capacity"
-		puts "6. Change Car Name"
-		puts "7. Details"
-		puts "8. Horn the car"
-		puts "9. Exit"
-		print "Choose your option: "
-		answer = gets.chomp
-		answer = answer.to_i
-		case answer
-		when 1
-			refill(object)
-		when 2
-			ride(object)
-		when 3
-			reset(object)
-		when 4
-			changeVel(object)
-		when 5
-			changeMax(object)
-		when 6
-			changeNam(object)
-		when 7
-			details(object)
-		when 8
-			horn(object)
-		when 9
-			exit = true	
+	if (select_car-1) < cars.length and (select_car-1) >= 0
+		object = cars[i-1]
+		puts "Car -- " + object.name
+		
+		exit = false
+		while !exit
+			puts "***SUBMENU***"
+			puts "1. Refill Fuel"
+			puts "2. Ride Car"
+			puts "3. Reset Car"
+			puts "4. Change Velocity"
+			puts "5. Change Max Fuel Capacity"
+			puts "6. Change Car Name"
+			puts "7. Details"
+			puts "8. Horn the car"
+			puts "9. Exit"
+			print "Choose your option: "
+			answer = gets.chomp
+			answer = answer.to_i
+			case answer
+			when 1
+				refill(object)
+			when 2
+				ride(object)
+			when 3
+				reset(object)
+			when 4
+				changeVel(object)
+			when 5
+				changeMax(object)
+			when 6
+				changeNam(object)
+			when 7
+				details(object)
+			when 8
+				horn(object)
+			when 9
+				exit = true	
+			end
 		end
+	else
+		puts "Unable to retrieve."
 	end
 	puts "*END-OF-SELECT*"
 end
