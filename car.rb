@@ -1,10 +1,8 @@
 require_relative 'horn'
-class MotorCycle
+class Car
 	include Horn
-	WHEEL = 2
-	@@bikes = []
-
-	require 'pry'
+	WHEEL = 4
+	@@cars = []
 
 	attr_accessor :name, :current_fuel, :max_capacity_fuel, :velocity, :time, :distance
 
@@ -15,8 +13,8 @@ class MotorCycle
 		@velocity = velocity
 		@time = time
 		@distance = distance
-		@@bikes.insert(@@bikes.length,self)
-		puts "A MotorCycle has been added."
+		@@cars.insert(@@cars.length,self)
+		puts "A car has been added."
 	end
 
 	def refill(fill)
@@ -35,7 +33,7 @@ class MotorCycle
 	def ride(time1, velocity)
 		@velocity = velocity
 		if @current_fuel <= 0
-			puts "Cannot run the MotorCycle"
+			puts "Cannot run the car"
 		else
 			dist = time1 * @velocity
 			fuel_needed = dist * 0.01
@@ -71,7 +69,6 @@ class MotorCycle
 		display_time
 	end
 
-
 	def display_name
 		puts "Name = " + @name
 	end
@@ -97,15 +94,15 @@ class MotorCycle
 	end
 
 	def self.find(id)
-		@@bikes.find{ |bike| bike.name == id}
+		@@cars.find{ |car| car.name == id}
 	end
 
 	def self.all
-		@@bikes
+		@@cars
 	end
 
 	def self.destroy(id)
-		@@bikes.delete_if{ |bike| bike == id}	
+		@@cars.delete_if{ |car| car == id}	
 	end
 
 	def self.create(name, current_fuel, max_capacity_fuel, velocity, time, distance)

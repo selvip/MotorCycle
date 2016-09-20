@@ -1,5 +1,4 @@
-# motor_cycle.rb
-require_relative 'motor_cycle'
+require_relative 'sport_motor_cycle'
 require 'pry'
 
 #CLI Submenu
@@ -27,43 +26,38 @@ def reset(object)
 	puts "END-OF-RESET"
 end
 
-def changeVel(object)
-	puts "*4. Change Velocity*"
-	print "Velocity: "
-	velocity = gets.chomp.to_i
-	object.velocity = velocity
-	puts "END-OF-CHANGE"
-end
-
-def changeMax(object)
-	puts "*5. Change Max Fuel Capacity*"
-	print "Max Capacity Fuel: "
-	max_fuel = gets.chomp.to_i
-	object.max_capacity_fuel = max_fuel
-	puts "END-OF-CHANGE"
-end
-
-def changeNam(object)
-	puts "*6. Change MotorCycle Name*"
-	print "Name: "
-	name = gets.chomp.to_s
-	object.name = name
-	puts "END-OF-CHANGE"
+def changeGear(object)
+	puts "*4. Change Gear*"
+	print "Forward? (y/n) : "
+	yn_input = gets.chomp
+	case yn_input
+	when 'y'
+		object.change_gear(true)
+	when 'Y'
+		object.change_gear(true)
+	when 'n'
+		object.change_gear(false)
+	when 'N'
+		object.change_gear(false)
+	end
+	puts "Current Gear = " + object.gear.to_s
 end
 
 def details(object)
-	puts "*7. Details*"
+	puts "*5. Details*"
 	object.display_name
 	object.display_max_capacity_fuel
 	object.display_velocity
 	object.display_time
 	object.display_distance
 	object.display_current_fuel
+	object.display_gear
+	object.display_type
 	puts "END-OF-DETAILS"
 end
 
 def horn(object)
-	puts "*8. Horn the MotorCycle*"
+	puts "*6. Horn the MotorCycle*"
 	print "SFX : "
 	object.press_horn
 	puts "END-OF-HORN"
@@ -71,14 +65,27 @@ end
 
 ##CLI MotorCycle MENU
 def create
-	puts "*1. CREATE NEW MOTORCYCLE*"
+	puts "*1. CREATE NEW SPORTMOTORCYCLE*"
 	print "New name: "
 	new_name = gets.chomp
-	print "New max capacity fuel: "
-	new_max_capacity_fuel = gets.chomp.to_i
-	print "Velocity: "
-	new_velocity = gets.chomp.to_i
-	MotorCycle.create(new_name.to_s, 0, new_max_capacity_fuel, new_velocity, 0, 0)
+	puts "Choose type: "
+	puts "1. 110"
+	puts "2. 120"
+	puts "3. 250"
+	puts "4. 300"
+	print "Option: "
+	new_type = gets.chomp.to_i
+	case new_type
+	when 1
+		new_type = 110
+	when 2
+		new_type = 120
+	when 3
+		new_type = 250
+	when 4
+		new_type = 300
+	end
+	SportMotorCycle.new(new_name.to_s, new_type)
 	puts "*END-OF-CREATE*"
 end
 
@@ -98,7 +105,7 @@ end
 def select
 	puts "*3. SELECT A MOTORCYCLE*"
 
-	bikes = MotorCycle.all
+	bikes = SportMotorCycle.all
 	i = 0
 	bikes.each do |bike|
 		i += 1
@@ -119,12 +126,10 @@ def select
 		puts "1. Refill Fuel"
 		puts "2. Ride MotorCycle"
 		puts "3. Reset MotorCycle"
-		puts "4. Change Velocity"
-		puts "5. Change Max Fuel Capacity"
-		puts "6. Change MotorCycle Name"
-		puts "7. Details"
-		puts "8. Horn the MotorCycle"
-		puts "9. Exit"
+		puts "4. Change Gear"
+		puts "5. Details"
+		puts "6. Horn the MotorCycle"
+		puts "7. Exit"
 		print "Choose your option: "
 		answer = gets.chomp
 		answer = answer.to_i
@@ -136,16 +141,12 @@ def select
 		when 3
 			reset(object)
 		when 4
-			changeVel(object)
+			changeGear(object)
 		when 5
-			changeMax(object)
-		when 6
-			changeNam(object)
-		when 7
 			details(object)
-		when 8
+		when 6
 			horn(object)
-		when 9
+		when 7
 			exit = true	
 		end
 	end
@@ -155,7 +156,7 @@ end
 def destroy
 	puts "*4. DESTROY A MOTORCYCLE*"
 
-	bikes = MotorCycle.all
+	bikes = SportMotorCycle.all
 	i=0
 	bikes.each do |bike|
 		i+=1
@@ -167,9 +168,10 @@ def destroy
 	puts "*END-OF-LIST*"
 	print "Select bike : "
 	select_bike = gets.chomp.to_i
+	puts bikes.length
 	if (select_bike-1) < bikes.length and (select_bike-1) >= 0
 		selected_bike = bikes[select_bike-1]
-		MotorCycle.destroy(selected_bike)
+		SportMotorCycle.destroy(selected_bike)
 		puts "Object has been destroyed."
 	else
 		puts "Cannot find any."
@@ -177,14 +179,14 @@ def destroy
 	puts "*END-OF-DESTROY*"
 end
 
-exit = false
-puts "CLI RUBY -- MotorCycle"
+exit  = false
+puts "CLI RUBY -- Sport Motor Cycle"
 begin
 	puts "***MENU***"
-	puts "1. Create a new MotorCycle"
-	puts "2. List all MotorCycles"
-	puts "3. Select one MotorCycle"
-	puts "4. Destroy a MotorCycle"
+	puts "1. Create a new SportMotorCycle"
+	puts "2. List all SportMotorCycles"
+	puts "3. Select one SportMotorCycle"
+	puts "4. Destroy a SportMotorCycle"
 	puts "5. Exit"
 	print "Choose your option: "
 	answer = gets.chomp

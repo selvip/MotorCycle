@@ -1,5 +1,4 @@
-# motor_cycle.rb
-require_relative 'motor_cycle'
+require_relative 'car'
 require 'pry'
 
 #CLI Submenu
@@ -12,7 +11,7 @@ def refill(object)
 end
 
 def ride(object)
-	puts "*2. Ride MotorCycle*"
+	puts "*2. Ride Car*"
 	print "Time (in seconds): "
 	time_input = gets.chomp.to_i
 	velocity = object.velocity
@@ -21,7 +20,7 @@ def ride(object)
 end
 
 def reset(object)
-	puts "*3. Reset MotorCycle*"
+	puts "*3. Reset Car*"
 	object.reset
 	puts "Reset current_fuel, distance, and time."
 	puts "END-OF-RESET"
@@ -44,7 +43,7 @@ def changeMax(object)
 end
 
 def changeNam(object)
-	puts "*6. Change MotorCycle Name*"
+	puts "*6. Change Car Name*"
 	print "Name: "
 	name = gets.chomp.to_s
 	object.name = name
@@ -63,67 +62,67 @@ def details(object)
 end
 
 def horn(object)
-	puts "*8. Horn the MotorCycle*"
+	puts "*8. Horn*"
 	print "SFX : "
 	object.press_horn
 	puts "END-OF-HORN"
 end
 
-##CLI MotorCycle MENU
+##CLI Car MENU
 def create
-	puts "*1. CREATE NEW MOTORCYCLE*"
+	puts "*1. CREATE NEW CAR*"
 	print "New name: "
-	new_name = gets.chomp
+	new_name = gets.chomp.to_s
 	print "New max capacity fuel: "
 	new_max_capacity_fuel = gets.chomp.to_i
 	print "Velocity: "
 	new_velocity = gets.chomp.to_i
-	MotorCycle.create(new_name.to_s, 0, new_max_capacity_fuel, new_velocity, 0, 0)
+	Car.create(new_name, 0, new_max_capacity_fuel, new_velocity, 0, 0)
 	puts "*END-OF-CREATE*"
 end
 
 def list
-	puts "*2. LIST OF MOTORCYCLES*"
-	x = MotorCycle.all
-	i=0
-	x.each do |bike|
+	puts "*2. LIST OF CARS*"
+	list_of_cars = Car.all
+	i = 0
+	list_of_cars.each do |car|
 		i += 1
 		print i.to_s + ". "
-		print bike.name.to_s
+		print car.name.to_s
 		puts
 	end
 	puts "*END-OF-LIST*"
 end
 
 def select
-	puts "*3. SELECT A MOTORCYCLE*"
+	puts "*3. SELECT A Car*"
 
-	bikes = MotorCycle.all
+	cars = Car.all
 	i = 0
-	bikes.each do |bike|
+	cars.each do |car|
 		i += 1
 		print i.to_s + ". "
-		print bike.name.to_s
+		print car.name.to_s
 		puts
 	end
 	
 	puts "*END-OF-LIST*"
-	print "Select bike: "
-	select_bike = gets.chomp.to_i
-	object = bikes[i-1]
-	puts "MotorCycle -- " + object.name
+	print "Select car: "
+	select_car = gets.chomp.to_i
+	object = cars[i-1]
+	puts "Car -- " + object.name
 	
 	exit = false
 	while !exit
 		puts "***SUBMENU***"
 		puts "1. Refill Fuel"
-		puts "2. Ride MotorCycle"
-		puts "3. Reset MotorCycle"
+		puts "2. Ride Car"
+		puts "3. Reset Car"
 		puts "4. Change Velocity"
 		puts "5. Change Max Fuel Capacity"
-		puts "6. Change MotorCycle Name"
+		puts "6. Change Car Name"
 		puts "7. Details"
-		puts "8. Horn the MotorCycle"
+		puts "8. Horn the car"
 		puts "9. Exit"
 		print "Choose your option: "
 		answer = gets.chomp
@@ -153,23 +152,23 @@ def select
 end
 
 def destroy
-	puts "*4. DESTROY A MOTORCYCLE*"
+	puts "*4. DESTROY A CAR*"
 
-	bikes = MotorCycle.all
+	cars = Car.all
 	i=0
-	bikes.each do |bike|
+	cars.each do |car|
 		i+=1
 		print i.to_s + ". "
-		print bike.name.to_s
+		print car.name.to_s
 		puts
 	end
 	
 	puts "*END-OF-LIST*"
-	print "Select bike : "
-	select_bike = gets.chomp.to_i
-	if (select_bike-1) < bikes.length and (select_bike-1) >= 0
-		selected_bike = bikes[select_bike-1]
-		MotorCycle.destroy(selected_bike)
+	print "Select car : "
+	select_car = gets.chomp.to_i
+	if (select_car-1) < cars.length and (select_car-1) >= 0
+		selected_car = cars[select_car-1]
+		Car.destroy(selected_car)
 		puts "Object has been destroyed."
 	else
 		puts "Cannot find any."
@@ -178,13 +177,13 @@ def destroy
 end
 
 exit = false
-puts "CLI RUBY -- MotorCycle"
+puts "CLI RUBY -- CAR"
 begin
 	puts "***MENU***"
-	puts "1. Create a new MotorCycle"
-	puts "2. List all MotorCycles"
-	puts "3. Select one MotorCycle"
-	puts "4. Destroy a MotorCycle"
+	puts "1. Create a new car."
+	puts "2. List all cars"
+	puts "3. Select one car"
+	puts "4. Destroy a car"
 	puts "5. Exit"
 	print "Choose your option: "
 	answer = gets.chomp
