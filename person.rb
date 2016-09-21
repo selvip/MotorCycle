@@ -1,10 +1,21 @@
 require_relative 'garage'
 class Person
-  attr_accessor :name, :garage_space
+  attr_accessor :name, :money_left
+  attr_writer :garage_space
 
-  def initialize(name:, garage_space:)
+  def initialize(name:, garage_space:, money:)
     @name = name
+    @money = money
+    @money_left = @money
     @garage = Garage.new([], garage_space)
+  end
+
+  def garage_current_capacity
+    @garage.free_capacity
+  end
+
+  def garage_current_capacity=(garage_current_capacity)
+    garage_current_capacity
   end
 
   def all_motors
@@ -12,12 +23,7 @@ class Person
   end
 
   def add_motor(motor)
-    next_space = @garage.free_capacity - motor.space
-    if next_space < 0
-      puts "Full. Unable to store."
-    else
-      @garage.add_to_garage(motor)
-    end
+    @garage.add_to_garage(motor)
   end
 
   def find_motor(index)

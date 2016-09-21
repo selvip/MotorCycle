@@ -6,9 +6,9 @@ class MotorCycle
 
 	require 'pry'
 
-	attr_accessor :name, :current_fuel, :max_capacity_fuel, :velocity, :time, :distance, :space
+	attr_accessor :name, :current_fuel, :max_capacity_fuel, :velocity, :time, :distance, :space, :price
 
-	def initialize(name:, current_fuel:, max_capacity_fuel:, velocity:, time:, distance:, space: nil)
+	def initialize(name:, current_fuel:, max_capacity_fuel:, velocity:, time:, distance:, space: nil, price: nil)
 		@name = name
 		@current_fuel = current_fuel
 		@max_capacity_fuel = max_capacity_fuel
@@ -16,8 +16,8 @@ class MotorCycle
 		@time = time
 		@distance = distance
 		@space = space
+		@price = price
 		@@bikes.insert(@@bikes.length,self)
-		puts "A MotorCycle has been created."
 	end
 
 	def refill(fill)
