@@ -1,12 +1,11 @@
 require_relative 'garage'
 class Person
-  attr_accessor :name, :money_left
+  attr_accessor :name, :money
   attr_writer :garage_space
 
   def initialize(name:, garage_space:, money:)
     @name = name
     @money = money
-    @money_left = @money
     @garage = Garage.new([], garage_space)
   end
 
@@ -36,6 +35,14 @@ class Person
 
   def display_garage
     @garage.display_motors
+  end
+
+  def increase_money(income)
+    @money = @money + income
+  end
+
+  def decrease_money(outcome)
+    @money = @money - outcome
   end
 
 end

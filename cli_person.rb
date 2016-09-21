@@ -2,7 +2,7 @@ require_relative 'person'
 
 @people = []
 
-def create_motor(name, max_fuel, velocity, space, price)
+def create_motor(name, velocity, max_fuel, space, price)
 	MotorCycle.new( name: name, 
 									current_fuel: 0, 
 									max_capacity_fuel: max_fuel, 
@@ -13,10 +13,18 @@ def create_motor(name, max_fuel, velocity, space, price)
 									price: price)
 end
 
+def display_all_details(selected_motor)
+	selected_motor.display_name
+	selected_motor.display_current_fuel
+	selected_motor.display_max_capacity_fuel
+	selected_motor.display_velocity
+	selected_motor.display_distance
+	selected_motor.display_time
+end
+
 def pricelist(motor, index)
 	puts "#{index}\t#{motor.name}\t\t#{motor.velocity}\t#{motor.space}\t#{motor.price}"
 end
-
 
 #SUBMENUS
 
@@ -24,15 +32,15 @@ def buy_motor(selected_person)
 	puts "List of buyable motorcycles"
 	puts "No.\tName\t\tVelocity\tSpace\tPrice"
 
-	motor1 = create_motor('Yamaha Mio', 4.2, 5, 10, 1550)
+	motor1 = create_motor('Yamaha Mio', 2, 15.0, 10, 1550)
 	pricelist(motor1, 1)
-	motor2 = create_motor('Honda Blade', 4.5, 5, 15, 1650)
+	motor2 = create_motor('Honda Blade', 2, 17.0, 15, 1650)
 	pricelist(motor2, 2)
-	motor3 = create_motor('Honda Revo', 4.2, 6, 15, 1500)
+	motor3 = create_motor('Honda Revo', 2, 18.0, 15, 1500)
 	pricelist(motor3, 3)
-	motor4 = create_motor('Kawasaki X', 8.0, 10, 25, 1850)
+	motor4 = create_motor('Kawasaki X', 5, 25.0, 25, 1850)
 	pricelist(motor4, 4)
-	motor5 = create_motor('Motor Rossi', 6.0, 12, 25, 2150)
+	motor5 = create_motor('Motor Rossi', 5, 25.0, 25, 2150)
 	pricelist(motor5, 5)
 
 	print "Select the motorcyle : "
@@ -56,11 +64,11 @@ def buy_motor(selected_person)
 		if next_space < 0
 			puts "Not enough space."
 		else
-			next_money_left = selected_person.money_left - selected_motor.price
-			if next_money_left < 0
+			next_money = selected_person.money - selected_motor.price
+			if next_money < 0
 				puts "Unable to afford the motorcyle."
 			else
-				selected_person.money_left = next_money_left
+				selected_person.decrease_money(selected_motor.price)
 				selected_person.add_motor(selected_motor)
 				puts "#{selected_person.name} has bought #{selected_motor.name}."
 			end
@@ -84,7 +92,7 @@ def sell_motor(selected_person)
 	else
 		selected_motor = selected_person.all_motors[select_motor-1]
 		selected_person.garage_current_capacity = selected_person.garage_current_capacity + selected_motor.space
-		selected_person.money_left += (selected_motor.price * 0.5)
+		selected_person.increase_money(selected_motor.price * 0.5)
 		selected_person.remove_motor(selected_motor)
 		puts "#{selected_motor.name} has been removed from the list."
 	end
@@ -100,12 +108,47 @@ def select_motor(selected_person)
 		puts "Input is not in the list."
 	else
 		selected_motor = selected_person.all_motors[select_motor-1]
-		selected_motor.display_name
-		selected_motor.display_current_fuel
-		selected_motor.display_max_capacity_fuel
-		selected_motor.display_velocity
-		selected_motor.display_distance
-		selected_motor.display_time
+		display_all_details(selected_motor)
+		exit = false
+		begin
+			puts "Delivery package to earn money"
+			puts "1. Refill motorcycle"
+			puts "2. Delivery package"
+			puts "3. Exit"
+			print "Select option : "
+			option = gets.chomp.to_i
+			case option
+			when 1
+				print "Refill (in liters) : "
+				refill = gets.chomp.to_f
+				selected_motor.refill(refill)
+				refill_cost = refill * 5
+				selected_person.decrease_money(refill_cost)
+				puts "#{refill_cost}$ is used to refill."
+			when 2
+				dist_now = selected_motor.distance
+				time_now = selected_motor.time
+				max_time = selected_motor.max_time_ride
+				time = rand(1..max_time)
+				selected_motor.ride(time, selected_motor.velocity)
+				if selected_motor.distance > dist_now
+					income = (selected_motor.distance - dist_now) * 150
+					selected_person.increase_money(income)
+					puts "Earned #{income}"
+				else
+					selected_motor.distance = dist_now
+					puts "Failed to earn."
+				end
+				broke = rand()
+				if broke >= 0.75 then
+					puts "MotorCycle broken. 150$ is used to repair."
+					selected_person.decrease_money(150)
+				end
+				puts "END-OF-DELIVERY"
+			when 3
+				exit = true
+			end
+			end while !exit
 	end
 	puts "END-OF-SELECT"
 end
@@ -113,9 +156,13 @@ end
 def details(selected_person)
 	puts "Details of the person"
 	puts "Name : #{selected_person.name}"
-	puts "Current fund : #{selected_person.money_left}"
+	puts "Current fund : #{selected_person.money}"
 	puts "Garage space : #{selected_person.garage_current_capacity}"
 	puts "END-OF-DETAILS"
+end
+
+def delivery_package(selected_motor)
+	
 end
 
 #MAIN MENUS

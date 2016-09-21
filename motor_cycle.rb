@@ -46,16 +46,10 @@ class MotorCycle
 				dist1 = time2 * @velocity
 				@distance = @distance + dist1
 				@time = @time + time2
-				puts "Fuel empty."
-				puts "Current distance = " + dist.to_s + " meters."
-				puts "Current duration = " + time2.to_s + " seconds. "
 			else 
 				@distance = @distance + dist
 				@time = @time + time1
 				@current_fuel = @current_fuel - fuel_needed
-				puts "Stopped."
-				puts "Current distance = " + dist.to_s + " meters."
-				puts "Current duration = " + time1.to_s + " seconds. "
 			end
 			display_distance
 			display_time
@@ -70,6 +64,12 @@ class MotorCycle
 		display_current_fuel
 		display_distance
 		display_time
+	end
+
+	def max_time_ride
+		
+		time = @current_fuel * 100 / @velocity
+
 	end
 
 
