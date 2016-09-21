@@ -19,7 +19,13 @@ def add_motor(selected_person)
 	new_velocity = gets.chomp.to_i
 	print "Space : "
 	new_space = gets.chomp.to_i
-	new_motor = MotorCycle.new(new_motor_name, 0, new_max_capacity_fuel, new_velocity, 0, 0, new_space)
+	new_motor = MotorCycle.new(	name: new_motor_name, 
+															current_fuel: 0, 
+															max_capacity_fuel: new_max_capacity_fuel, 
+															velocity: new_velocity, 
+															time: 0, 
+															distance: 0, 
+															space: new_space)
 	selected_person.add_motor(new_motor)
 	puts "END-OF-ADD"
 end

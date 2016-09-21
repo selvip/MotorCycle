@@ -8,7 +8,7 @@ class MotorCycle
 
 	attr_accessor :name, :current_fuel, :max_capacity_fuel, :velocity, :time, :distance, :space
 
-	def initialize(name, current_fuel, max_capacity_fuel, velocity, time, distance, space)
+	def initialize(name:, current_fuel:, max_capacity_fuel:, velocity:, time:, distance:, space: nil)
 		@name = name
 		@current_fuel = current_fuel
 		@max_capacity_fuel = max_capacity_fuel
